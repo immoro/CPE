@@ -4,7 +4,7 @@
 // Engineer: 
 // 
 // Create Date: 2021/10/27 11:17:38
-// Design Name: 
+// Design Name:  
 // Module Name: fsk
 // Project Name: 
 // Target Devices: 
@@ -20,18 +20,18 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module FSK(
-	input clk,//Ê±ÖÓĞÅºÅ
-	output reg [7:0]sigOut,//Êä³öÒÑµ÷ĞÅºÅ
-	output reg [7:0]carryWave1,//1¶ÔÓ¦µÄÔØ²¨·ù¶È
-	output reg [7:0]carryWave0,//0¶ÔÓ¦µÄÔØ²¨·ù¶È
-	output wire codeSource,//Êı×Ö»ù´øĞÅºÅ
-	output reg codeClk=0,//ÓÃÀ´¿ØÖÆÊı×Ö»ù´øĞÅºÅµÄÊ±ÖÓ
-	output reg stClk=0//ÓÃÀ´¿ØÖÆÔØ²¨µÄÊ±ÖÓ£¬Êı×Ö»ù´øÊ±ÖÓÖÜÆÚÓ¦ÎªÔØ²¨Ê±ÖÓµÄn±¶
+	input clk,//æ—¶é’Ÿä¿¡å·
+	output reg [7:0]sigOut,//è¾“å‡ºå·²è°ƒä¿¡å·
+	output reg [7:0]carryWave1,//1å¯¹åº”çš„è½½æ³¢å¹…åº¦
+	output reg [7:0]carryWave0,//0å¯¹åº”çš„è½½æ³¢å¹…åº¦
+	output wire codeSource,//æ•°å­—åŸºå¸¦ä¿¡å·
+	output reg codeClk=0,//ç”¨æ¥æ§åˆ¶æ•°å­—åŸºå¸¦ä¿¡å·çš„æ—¶é’Ÿ
+	output reg stClk=0//ç”¨æ¥æ§åˆ¶è½½æ³¢çš„æ—¶é’Ÿï¼Œæ•°å­—åŸºå¸¦æ—¶é’Ÿå‘¨æœŸåº”ä¸ºè½½æ³¢æ—¶é’Ÿçš„nå€
 );
  
-//·ÖÆµÆ÷²¿·Ö
-reg [7:0]codeClkCount=0;//Ê±ÖÓ¼ÆÊıÆ÷
-reg [3:0]carryClkCount=0;//ÔØ²¨Ê±ÖÓ¼ÆÊıÆ÷
+//åˆ†é¢‘å™¨éƒ¨åˆ†
+reg [7:0]codeClkCount=0;//æ—¶é’Ÿè®¡æ•°å™¨
+reg [3:0]carryClkCount=0;//è½½æ³¢æ—¶é’Ÿè®¡æ•°å™¨
 always @(posedge clk)
 begin
 	//codeClk
@@ -57,13 +57,13 @@ begin
 	end
 end
  
-//Êı×Ö»ù´øĞÅºÅ£¬mĞòÁĞ·¢ÉúÆ÷
-reg [5:0]outReg=6'b010101;//ĞòÁĞ¼Ä´æÆ÷³õÊ¼»¯
-reg mAdded;//mĞòÁĞÒÆÎ»µÄ¸¨Öú±äÁ¿
-assign codeSource=outReg[5];//Êä³ö±äÁ¿Îª¼Ä´æÆ÷ĞòÁĞµÄ×î¸ßÎ»
+//æ•°å­—åŸºå¸¦ä¿¡å·ï¼Œmåºåˆ—å‘ç”Ÿå™¨
+reg [5:0]outReg=6'b010101;//åºåˆ—å¯„å­˜å™¨åˆå§‹åŒ–
+reg mAdded;//måºåˆ—ç§»ä½çš„è¾…åŠ©å˜é‡
+assign codeSource=outReg[5];//è¾“å‡ºå˜é‡ä¸ºå¯„å­˜å™¨åºåˆ—çš„æœ€é«˜ä½
 always @(negedge codeClk)
 begin
-	//ÊÖ¶¯Òì»ò
+	//æ‰‹åŠ¨å¼‚æˆ–
 	if(outReg[0]==outReg[5])
 	begin
 		mAdded=0;
@@ -72,12 +72,12 @@ begin
 	begin
 		mAdded=1;
 	end
-	outReg=outReg<<1;//¶Ô¼Ä´æÆ÷×óÒÆ
+	outReg=outReg<<1;//å¯¹å¯„å­˜å™¨å·¦ç§»
 	outReg=outReg+mAdded;
 end
  
-//ÔØ²¨µÄ²úÉú
-reg [7:0]waveCount=0;//ÔØ²¨·ù¶È²éÑ¯±äÁ¿
+//è½½æ³¢çš„äº§ç”Ÿ
+reg [7:0]waveCount=0;//è½½æ³¢å¹…åº¦æŸ¥è¯¢å˜é‡
 always @(posedge stClk)
 begin
 	if(waveCount==63)
@@ -89,7 +89,7 @@ begin
 		waveCount=waveCount+1;
 	end
 	
-	//¸ù¾İ²éÑ¯±äÁ¿½øĞĞÔØ²¨·ù¶È²éÑ¯
+	//æ ¹æ®æŸ¥è¯¢å˜é‡è¿›è¡Œè½½æ³¢å¹…åº¦æŸ¥è¯¢
 	case(waveCount)
 		0:begin carryWave0<=0;carryWave1<=0; end
 		1:begin carryWave0<=12;carryWave1<=25; end
@@ -158,7 +158,7 @@ begin
 	endcase
 end
  
-//µ÷ÖÆ²¿·Ö
+//è°ƒåˆ¶éƒ¨åˆ†
 always @(posedge stClk)
 begin
 	if(codeSource)
